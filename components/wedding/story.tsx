@@ -4,28 +4,45 @@ import Image from "next/image";
 import { useI18n } from "@/lib/i18n";
 import { Section, SectionHeader } from "./section";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import { cn } from "@/lib/utils";
+import { cn, storageUrl } from "@/lib/utils";
 
 const chapters = [
   {
     titleKey: "story.chapter1.title",
     textKey: "story.chapter1.text",
     year: "2019",
-    image: "/images/story-meeting.jpg",
+    image: storageUrl(
+      "28AB5001-55EC-4597-9BC3-D0B4EE1440BB-92804-00000A1DB94C8586.jpg",
+      "/images/story-meeting.JPG",
+    ),
     alt: "Amanda et Etienne se rencontrent",
   },
   {
     titleKey: "story.chapter2.title",
     textKey: "story.chapter2.text",
     year: "2020",
-    image: "/images/story-firstdate.jpg",
+    image: storageUrl("56.JPG", "/images/story-firstdate.JPG"),
     alt: "Premier rendez-vous d'Amanda et Etienne",
   },
   {
     titleKey: "story.chapter3.title",
     textKey: "story.chapter3.text",
+    year: "2021",
+    image: storageUrl("IMG_9865.JPG", "/images/story-proposal.JPG"),
+    alt: "La demande en mariage",
+  },
+  {
+    titleKey: "story.chapter4.title",
+    textKey: "story.chapter4.text",
+    year: "2023",
+    image: storageUrl("DSC_0692.jpeg", "/images/story-proposal.JPG"),
+    alt: "La demande en mariage",
+  },
+  {
+    titleKey: "story.chapter5.title",
+    textKey: "story.chapter5.text",
     year: "2025",
-    image: "/images/story-proposal.jpg",
+    image: storageUrl("IMG_6993.JPG", "/images/story-proposal.JPG"),
     alt: "La demande en mariage",
   },
 ];

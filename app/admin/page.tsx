@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import type {
   Companion,
   Participant,
   ParticipantInsert,
 } from "@/lib/db-models";
+import { CheckCircle2, Clock3, XCircle, Loader2 } from "lucide-react";
 
 const PASSWORD = "amandaetetienne";
 const STORAGE_KEY = "admin-auth";
@@ -33,6 +34,21 @@ export default function AdminPage() {
   });
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const [emailSendingId, setEmailSendingId] = useState<string | null>(null);
+  const [bulkSending, setBulkSending] = useState(false);
+  const [emailFeedback, setEmailFeedback] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [sendingIds, setSendingIds] = useState<Set<string>>(new Set());
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editSaving, setEditSaving] = useState(false);
+  const [editError, setEditError] = useState("");
+  const [editForm, setEditForm] = useState({
+    fullName: "",
+    email: "",
+    lang: "fr" as "fr" | "en",
+    attending: null as boolean | null,
+    meal_choice: null as "meat" | "fish" | "vegetarian" | null,
+  });
 
   useEffect(() => {
     const stored =
@@ -80,11 +96,94 @@ export default function AdminPage() {
     }
   }, [authed]);
 
-  const comingCount = participants.filter((p) => p.attending === true).length;
-  const notComingCount = participants.filter(
-    (p) => p.attending === false,
-  ).length;
-  const pendingCount = participants.filter((p) => p.attending === null).length;
+  const setSending = (id: string, sending: boolean) => {
+    setSendingIds((prev) => {
+      const next = new Set(prev);
+      if (sending) {
+        next.add(id);
+      } else {
+        next.delete(id);
+      }
+      return next;
+    });
+  };
+
+  const updateEmailStatusLocal = (id: string, status: boolean | null) => {
+    setParticipants((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, email_sent_success: status } : p)),
+    );
+  };
+
+  const formatStatus = (status: boolean | null | undefined) =>
+    status === true ? "Présent" : status === false ? "Absent" : "En attente";
+
+  const aggregateCounts = participants.reduce(
+    (acc, participant) => {
+      const add = (status: boolean | null | undefined) => {
+        if (status === true) acc.present += 1;
+        else if (status === false) acc.absent += 1;
+        else acc.pending += 1;
+      };
+
+      add(participant.attending);
+      (participant.accompanists || []).forEach((companion) =>
+        add(companion.attending),
+      );
+      return acc;
+    },
+    { present: 0, absent: 0, pending: 0 } as {
+      present: number;
+      absent: number;
+      pending: number;
+    },
+  );
+
+  const participantFilterCounts = useMemo(
+    () =>
+      participants.reduce(
+        (acc, p) => {
+          acc.all += 1;
+          if (p.attending === true) acc.yes += 1;
+          else if (p.attending === false) acc.no += 1;
+          else acc.pending += 1;
+          return acc;
+        },
+        { all: 0, yes: 0, no: 0, pending: 0 },
+      ),
+    [participants],
+  );
+
+  const renderEmailStatus = (
+    status: boolean | null | undefined,
+    isSending: boolean,
+  ) => {
+    if (isSending) {
+      return (
+        <span className="inline-flex items-center gap-1 text-xs text-primary">
+          <Loader2 className="h-4 w-4 animate-spin" /> Envoi...
+        </span>
+      );
+    }
+    if (status === true) {
+      return (
+        <span className="inline-flex items-center gap-1 text-xs text-emerald-600">
+          <CheckCircle2 className="h-4 w-4" /> Envoyé
+        </span>
+      );
+    }
+    if (status === false) {
+      return (
+        <span className="inline-flex items-center gap-1 text-xs text-destructive">
+          <XCircle className="h-4 w-4" /> Echec
+        </span>
+      );
+    }
+    return (
+      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+        <Clock3 className="h-4 w-4" /> Non envoyé
+      </span>
+    );
+  };
 
   const filteredParticipants = participants.filter((p) => {
     if (statusFilter === "yes") return p.attending === true;
@@ -109,6 +208,7 @@ export default function AdminPage() {
     }
 
     const payload: ParticipantInsert = {
+      id: crypto.randomUUID(),
       full_name: form.fullName,
       attending: null,
       meal_choice: null,
@@ -129,9 +229,107 @@ export default function AdminPage() {
     setSaving(false);
   };
 
-  const sendEmail = (participant: Participant) => {
-    // Placeholder hook for integrating email send
-    console.log("Send email to", participant.email || participant.full_name);
+  const sendEmail = async (participant: Participant) => {
+    if (!participant.email) {
+      setEmailFeedback("");
+      setEmailError(`Aucun courriel pour ${participant.full_name}.`);
+      return;
+    }
+
+    setEmailError("");
+    setEmailFeedback("");
+    setEmailSendingId(participant.id);
+    setSending(participant.id, true);
+    updateEmailStatusLocal(participant.id, null);
+
+    try {
+      const response = await fetch("/api/admin/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          recipients: [participant.email],
+          names: [participant.full_name],
+          participantIds: [participant.id],
+          participants: [
+            {
+              id: participant.id,
+              name: participant.full_name,
+              lang: participant.lang,
+            },
+          ],
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data?.error || "Echec de l'envoi de l'email.");
+      }
+
+      setEmailFeedback(`Email envoye a ${participant.full_name}.`);
+      updateEmailStatusLocal(participant.id, true);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Echec de l'envoi de l'email.";
+      setEmailError(message);
+      updateEmailStatusLocal(participant.id, false);
+    } finally {
+      setSending(participant.id, false);
+      setEmailSendingId(null);
+    }
+  };
+
+  const startEdit = (participant: Participant) => {
+    setEditError("");
+    setEditingId(participant.id);
+    setEditForm({
+      fullName: participant.full_name,
+      email: participant.email || "",
+      lang: participant.lang,
+      attending: participant.attending,
+      meal_choice: participant.meal_choice || null,
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditError("");
+  };
+
+  const saveEdit = async () => {
+    if (!editingId) return;
+    setEditError("");
+    setEditSaving(true);
+
+    const payload = {
+      full_name: editForm.fullName.trim(),
+      email: editForm.email.trim() || undefined,
+      lang: editForm.lang,
+      attending: editForm.attending,
+      meal_choice:
+        editForm.attending === true && editForm.meal_choice
+          ? editForm.meal_choice
+          : undefined,
+    } satisfies Partial<ParticipantInsert>;
+
+    try {
+      const { error } = await supabase
+        .from("awnsers")
+        .update(payload)
+        .eq("id", editingId);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      await loadParticipants();
+      setEditingId(null);
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Echec de la mise a jour.";
+      setEditError(message);
+    } finally {
+      setEditSaving(false);
+    }
   };
   const addCompanion = () => {
     setForm((prev) => ({
@@ -143,6 +341,7 @@ export default function AdminPage() {
           fullName: "",
           meal: "meat",
           restrictions: "",
+          attending: null,
         },
       ],
     }));
@@ -164,9 +363,138 @@ export default function AdminPage() {
     }));
   };
 
-  const sendEmailAll = () => {
-    // Placeholder hook for integrating bulk email send
-    console.log("Send bulk emails to all participants");
+  const toCsvValue = (value: unknown) => {
+    if (value === undefined || value === null) return "";
+    const str = String(value);
+    return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+  };
+
+  const downloadCsv = () => {
+    const headers = [
+      "accompanist_of",
+      "full_name",
+      "email",
+      "lang",
+      "attending",
+      "meal_choice",
+      "allergies",
+      "message",
+    ];
+
+    const lines = [headers.map(toCsvValue).join(",")];
+
+    const formatAttend = (value: boolean | null | undefined) =>
+      value === true ? "yes" : value === false ? "no" : "pending";
+
+    participants.forEach((p) => {
+      lines.push(
+        [
+          "",
+          p.full_name,
+          p.email,
+          p.lang,
+          formatAttend(p.attending),
+          p.meal_choice,
+          p.allergies,
+          p.message,
+        ]
+          .map(toCsvValue)
+          .join(","),
+      );
+
+      (p.accompanists || []).forEach((c, idx) => {
+        lines.push(
+          [
+            p.full_name,
+            c.fullName,
+            "",
+            p.lang,
+            formatAttend(c.attending),
+            c.meal,
+            c.restrictions,
+            "",
+          ]
+            .map(toCsvValue)
+            .join(","),
+        );
+      });
+    });
+
+    const blob = new Blob([lines.join("\n")], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "participants.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const sendEmailAll = async () => {
+    const targets = participants.filter(
+      (p) =>
+        p.email?.trim() &&
+        (p.email_sent_success === null || p.email_sent_success === false),
+    );
+
+    if (targets.length === 0) {
+      setEmailFeedback("");
+      setEmailError("Aucun courriel en attente d'envoi.");
+      return;
+    }
+
+    setEmailError("");
+    setEmailFeedback("");
+    setBulkSending(true);
+
+    let successCount = 0;
+    for (let i = 0; i < targets.length; i += 1) {
+      const target = targets[i];
+      setEmailFeedback(`Envoi ${i + 1}/${targets.length}...`);
+      setSending(target.id, true);
+      updateEmailStatusLocal(target.id, null);
+
+      try {
+        const response = await fetch("/api/admin/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            recipients: [target.email!.trim()],
+            names: [target.full_name],
+            participantIds: [target.id],
+            participants: [
+              {
+                id: target.id,
+                name: target.full_name,
+                lang: target.lang,
+              },
+            ],
+          }),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data?.error || "Echec de l'envoi.");
+        }
+
+        successCount += 1;
+        updateEmailStatusLocal(target.id, true);
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "Echec de l'envoi.";
+        setEmailError(message);
+        updateEmailStatusLocal(target.id, false);
+      } finally {
+        setSending(target.id, false);
+      }
+    }
+
+    setEmailFeedback(
+      `Emails envoyes: ${successCount}/${targets.length} participant(s).`,
+    );
+    setBulkSending(false);
+    await loadParticipants();
   };
 
   if (!authed) {
@@ -222,10 +550,18 @@ export default function AdminPage() {
           </div>
           <div className="flex items-center gap-2">
             <button
-              className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+              className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60"
               onClick={sendEmailAll}
+              disabled={bulkSending}
             >
-              Envoyer un email à tous
+              {bulkSending ? "Envoi..." : "Envoyer un email à tous"}
+            </button>
+            <button
+              className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60"
+              onClick={downloadCsv}
+              disabled={participants.length === 0}
+            >
+              Exporter CSV
             </button>
             <button
               className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
@@ -245,6 +581,17 @@ export default function AdminPage() {
             </button>
           </div>
         </div>
+
+        {(emailFeedback || emailError) && (
+          <div className="rounded-lg border border-border bg-background p-3">
+            {emailFeedback && (
+              <p className="text-sm text-emerald-600">{emailFeedback}</p>
+            )}
+            {emailError && (
+              <p className="text-sm text-destructive">{emailError}</p>
+            )}
+          </div>
+        )}
 
         <form
           onSubmit={handleCreate}
@@ -390,23 +737,53 @@ export default function AdminPage() {
                 Participants ({participants.length})
               </h2>
               <p className="text-xs text-muted-foreground">
-                Présents: {comingCount} · Absents: {notComingCount} · En
-                attente: {pendingCount}
+                Présents: {aggregateCounts.present} · Absents:{" "}
+                {aggregateCounts.absent} · En attente: {aggregateCounts.pending}{" "}
+                (participants et accompagnateurs)
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <select
-                value={statusFilter}
-                onChange={(e) =>
-                  setStatusFilter(e.target.value as typeof statusFilter)
-                }
-                className="rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
-              >
-                <option value="all">Tous</option>
-                <option value="yes">Présents</option>
-                <option value="no">Absents</option>
-                <option value="pending">En attente</option>
-              </select>
+              {(
+                [
+                  {
+                    key: "all",
+                    label: "Tous",
+                    count: participantFilterCounts.all,
+                  },
+                  {
+                    key: "yes",
+                    label: "Présents",
+                    count: participantFilterCounts.yes,
+                  },
+                  {
+                    key: "no",
+                    label: "Absents",
+                    count: participantFilterCounts.no,
+                  },
+                  {
+                    key: "pending",
+                    label: "En attente",
+                    count: participantFilterCounts.pending,
+                  },
+                ] as const
+              ).map((filter) => {
+                const active = statusFilter === filter.key;
+                return (
+                  <button
+                    key={filter.key}
+                    type="button"
+                    onClick={() => setStatusFilter(filter.key)}
+                    className={`flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-medium transition ${active ? "border-primary bg-primary/10 text-foreground" : "border-border bg-background text-muted-foreground hover:border-primary/40"}`}
+                  >
+                    <span>{filter.label}</span>
+                    <span
+                      className={`rounded-full px-2 py-[2px] text-[11px] ${active ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}
+                    >
+                      {filter.count}
+                    </span>
+                  </button>
+                );
+              })}
               {loading && (
                 <span className="text-xs text-muted-foreground">
                   Chargement...
@@ -419,35 +796,133 @@ export default function AdminPage() {
           )}
           <div className="space-y-4">
             {filteredParticipants.map((p) => {
-              const statusLabel =
-                p.attending === true
-                  ? "Présent"
-                  : p.attending === false
-                    ? "Absent"
-                    : "En attente";
+              const statusLabel = formatStatus(p.attending);
               const showDetails = p.attending !== null;
+              const isEditing = editingId === p.id;
               return (
                 <div
                   key={p.id}
                   className="space-y-2 rounded-xl border border-border bg-background p-4 shadow-sm"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">
-                        {p.full_name}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {statusLabel}
-                      </p>
-                      {p.lang && (
-                        <p className="text-xs text-muted-foreground">
-                          Langue: {p.lang.toUpperCase()}
-                        </p>
-                      )}
-                      {showDetails && p.meal_choice && (
-                        <p className="text-xs text-muted-foreground">
-                          Menu: {p.meal_choice}
-                        </p>
+                    <div className="space-y-1">
+                      {isEditing ? (
+                        <>
+                          <input
+                            value={editForm.fullName}
+                            onChange={(e) =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                fullName: e.target.value,
+                              }))
+                            }
+                            className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
+                          />
+                          <input
+                            type="email"
+                            value={editForm.email}
+                            onChange={(e) =>
+                              setEditForm((prev) => ({
+                                ...prev,
+                                email: e.target.value,
+                              }))
+                            }
+                            placeholder="Courriel"
+                            className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
+                          />
+                          <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                            <select
+                              value={editForm.lang}
+                              onChange={(e) =>
+                                setEditForm((prev) => ({
+                                  ...prev,
+                                  lang: e.target.value as "fr" | "en",
+                                }))
+                              }
+                              className="rounded-lg border border-border bg-card px-3 py-2 text-xs text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
+                            >
+                              <option value="fr">FR</option>
+                              <option value="en">EN</option>
+                            </select>
+                            <select
+                              value={
+                                editForm.attending === true
+                                  ? "yes"
+                                  : editForm.attending === false
+                                    ? "no"
+                                    : ""
+                              }
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setEditForm((prev) => ({
+                                  ...prev,
+                                  attending:
+                                    val === "yes"
+                                      ? true
+                                      : val === "no"
+                                        ? false
+                                        : null,
+                                }));
+                              }}
+                              className="rounded-lg border border-border bg-card px-3 py-2 text-xs text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
+                            >
+                              <option value="">En attente</option>
+                              <option value="yes">Présent</option>
+                              <option value="no">Absent</option>
+                            </select>
+                            <input
+                              value={editForm.meal_choice || ""}
+                              onChange={(e) =>
+                                setEditForm((prev) => ({
+                                  ...prev,
+                                  meal_choice: e.target.value as
+                                    | "meat"
+                                    | "fish"
+                                    | "vegetarian"
+                                    | null,
+                                }))
+                              }
+                              placeholder="Menu"
+                              disabled={editForm.attending !== true}
+                              className="flex-1 min-w-[120px] rounded-lg border border-border bg-card px-3 py-2 text-xs text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-sm font-semibold text-foreground">
+                            {p.full_name}
+                          </p>
+                          {p.email && (
+                            <p className="text-xs text-muted-foreground">
+                              {p.email}
+                            </p>
+                          )}
+                          <div className="flex items-center gap-2">
+                            {renderEmailStatus(
+                              p.email_sent_success,
+                              sendingIds.has(p.id),
+                            )}
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {statusLabel}
+                          </p>
+                          {p.lang && (
+                            <p className="text-xs text-muted-foreground">
+                              Langue: {p.lang.toUpperCase()}
+                            </p>
+                          )}
+                          {showDetails && p.meal_choice && (
+                            <p className="text-xs text-muted-foreground">
+                              Menu: {p.meal_choice}
+                            </p>
+                          )}
+                          {p.allergies && (
+                            <p className="text-xs text-muted-foreground">
+                              Restriction/allergies : {p.allergies}
+                            </p>
+                          )}
+                        </>
                       )}
                     </div>
                     {p.created_at && (
@@ -455,13 +930,57 @@ export default function AdminPage() {
                         Créé le {new Date(p.created_at).toLocaleDateString()}
                       </p>
                     )}
-                    <button
-                      className="rounded-full border border-border px-3 py-1 text-[11px] font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
-                      onClick={() => sendEmail(p)}
-                    >
-                      Envoyer un email
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      {isEditing ? (
+                        <>
+                          <button
+                            type="button"
+                            className="rounded-full border border-border px-3 py-1 text-[11px] font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60"
+                            onClick={cancelEdit}
+                            disabled={editSaving}
+                          >
+                            Annuler
+                          </button>
+                          <button
+                            type="button"
+                            className="rounded-full bg-primary px-3 py-1 text-[11px] font-medium text-primary-foreground shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                            onClick={saveEdit}
+                            disabled={editSaving}
+                          >
+                            {editSaving ? "Sauvegarde..." : "Enregistrer"}
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            type="button"
+                            className="rounded-full border border-border px-3 py-1 text-[11px] font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+                            onClick={() => startEdit(p)}
+                          >
+                            Modifier
+                          </button>
+                          <button
+                            type="button"
+                            className="rounded-full border border-border px-3 py-1 text-[11px] font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60"
+                            onClick={() => sendEmail(p)}
+                            disabled={
+                              emailSendingId === p.id ||
+                              bulkSending ||
+                              sendingIds.has(p.id)
+                            }
+                          >
+                            {emailSendingId === p.id
+                              ? "Envoi..."
+                              : "Envoyer un email"}
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </div>
+
+                  {isEditing && editError && (
+                    <p className="text-sm text-destructive">{editError}</p>
+                  )}
 
                   {p.accompanists.length > 0 && (
                     <div className="space-y-1">
@@ -475,7 +994,10 @@ export default function AdminPage() {
                             className="text-sm text-foreground"
                           >
                             - {c.fullName} ({c.meal}
-                            {c.restrictions ? ` · ${c.restrictions}` : ""})
+                            {c.restrictions
+                              ? ` · Restriction: ${c.restrictions}`
+                              : ""}
+                            ) - {formatStatus(c.attending)}
                           </p>
                         ))}
                       </div>

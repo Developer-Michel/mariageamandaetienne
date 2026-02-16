@@ -2,6 +2,7 @@
 
 import { useI18n } from "@/lib/i18n";
 import { Countdown } from "./countdown";
+import { storageUrl } from "@/lib/utils";
 
 export function Reminder() {
   const { t } = useI18n();
@@ -12,8 +13,8 @@ export function Reminder() {
         <div
           className="h-full w-full bg-cover bg-center"
           style={{
-            backgroundImage: "url('/hero2.png')",
-            backgroundPosition: "center 55%",
+            backgroundImage: `url('${storageUrl("IMG_6867.JPG", "/images/wedding/IMG_6867.JPG ")}')`,
+            backgroundPosition: "center 45%",
           }}
         />
         <div className="absolute inset-0 bg-primary/70" />

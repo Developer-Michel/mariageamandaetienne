@@ -19,6 +19,8 @@ export function RSVPForm() {
   const [submitting, setSubmitting] = useState(false);
   const [attending, setAttending] = useState<"yes" | "no" | null>(null);
   const [mealChoice, setMealChoice] = useState<string>("");
+  const [allergies, setAllergies] = useState("");
+  const [message, setMessage] = useState("");
   const [companions, setCompanions] = useState<CompanionWithId[]>([]);
   const [editing, setEditing] = useState(true);
 
@@ -34,19 +36,22 @@ export function RSVPForm() {
           : "no",
     );
     setMealChoice(participant.meal_choice ?? "");
+    setAllergies(participant.allergies || "");
+    setMessage(participant.message || "");
     setCompanions(
       (participant.accompanists || []).map((c, index) => ({
         ...c,
         id: index + 1,
         restrictions: c.restrictions || "",
+        attending: c.attending ?? null,
       })),
     );
   }, [participant]);
 
   const updateCompanion = (
     id: number,
-    field: "fullName" | "meal" | "restrictions",
-    value: string,
+    field: "fullName" | "meal" | "restrictions" | "attending",
+    value: string | boolean | null,
   ) => {
     setCompanions((prev) =>
       prev.map((c) => (c.id === id ? { ...c, [field]: value } : c)),
@@ -64,9 +69,28 @@ export function RSVPForm() {
       return;
     }
 
+    if (!attending) {
+      setSubmitError("Merci de choisir si tu seras présent(e).");
+      return;
+    }
+
+    if (attending === "yes" && !mealChoice) {
+      setSubmitError("Merci de choisir un menu.");
+      return;
+    }
+
+    const mealMap: Record<string, "meat" | "fish" | "vegetarian"> = {
+      porc: "meat",
+      surfnturf: "fish",
+      vegetarian: "vegetarian",
+      children: "meat",
+    };
+
     const payload: ParticipantUpdate = {
       attending: attending === "yes" ? true : attending === "no" ? false : null,
-      meal_choice: attending === "yes" ? mealChoice : null,
+      meal_choice: attending === "yes" ? mealMap[mealChoice] : null,
+      allergies: allergies.trim() || null,
+      message: message.trim() || null,
       accompanists:
         attending === "yes" ? companions.map(({ id, ...rest }) => rest) : [],
     };
@@ -173,6 +197,7 @@ export function RSVPForm() {
                 name="attending"
                 value="yes"
                 className="sr-only"
+                checked={attending === "yes"}
                 onChange={() => setAttending("yes")}
                 required
               />
@@ -190,6 +215,7 @@ export function RSVPForm() {
                 name="attending"
                 value="no"
                 className="sr-only"
+                checked={attending === "no"}
                 onChange={() => setAttending("no")}
               />
               <span>{t("rsvp.no")}</span>
@@ -218,6 +244,9 @@ export function RSVPForm() {
                 className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm text-card-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
                 required
               >
+                <option value="" disabled hidden>
+                  {t("rsvp.meal.select")}
+                </option>
                 <option value="porc">{t("rsvp.meal.meat")}</option>
                 <option value="surfnturf">{t("rsvp.meal.fish")}</option>
                 <option value="vegetarian">{t("rsvp.meal.vegetarian")}</option>
@@ -237,103 +266,146 @@ export function RSVPForm() {
                 id="allergies"
                 name="allergies"
                 rows={2}
+                value={allergies}
+                onChange={(e) => setAllergies(e.target.value)}
                 className="w-full resize-none rounded-lg border border-border bg-card px-4 py-3 text-sm text-card-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
               />
             </div>
 
-            {/* Companions */}
-            <div className="mb-8 space-y-4">
-              <p className="text-sm font-medium text-foreground">
-                {t("rsvp.companions.title")}
-              </p>
-
-              {companions.length === 0 && (
-                <p className="text-xs text-muted-foreground">
-                  {t("rsvp.companions.none")}
+            {/* Companions (only if provided) */}
+            {companions.length > 0 && (
+              <div className="mb-8 space-y-4">
+                <p className="text-sm font-medium text-foreground">
+                  {t("rsvp.companions.title")}
                 </p>
-              )}
 
-              <div className="space-y-4">
-                {companions.map((companion, index) => (
-                  <div
-                    key={companion.id}
-                    className="rounded-lg border border-border bg-card/60 p-4 shadow-sm"
-                  >
-                    <div className="mb-4 text-xs text-muted-foreground">
-                      <span>
-                        {t("rsvp.companions.label")} #{index + 1}
-                      </span>
-                    </div>
+                <div className="space-y-4">
+                  {companions.map((companion, index) => (
+                    <div
+                      key={companion.id}
+                      className="rounded-lg border border-border bg-card/60 p-4 shadow-sm"
+                    >
+                      <div className="mb-4 text-xs text-muted-foreground">
+                        <span>
+                          {t("rsvp.companions.label")} #{index + 1}
+                        </span>
+                      </div>
 
-                    <div className="mb-3">
-                      <label className="mb-2 block text-xs font-medium text-foreground">
-                        {t("rsvp.companions.fullName")}
-                      </label>
-                      <input
-                        type="text"
-                        name={`companions[${index}].fullName`}
-                        value={companion.fullName}
-                        onChange={(e) =>
-                          updateCompanion(
-                            companion.id,
-                            "fullName",
-                            e.target.value,
-                          )
-                        }
-                        className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
-                        required
-                      />
-                    </div>
+                      <div className="mb-3">
+                        <label className="mb-2 block text-xs font-medium text-foreground">
+                          {t("rsvp.companions.fullName")}
+                        </label>
+                        <input
+                          type="text"
+                          name={`companions[${index}].fullName`}
+                          value={companion.fullName}
+                          onChange={(e) =>
+                            updateCompanion(
+                              companion.id,
+                              "fullName",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
+                          required
+                        />
+                      </div>
 
-                    <div className="mb-3">
-                      <label className="mb-2 block text-xs font-medium text-foreground">
-                        {t("rsvp.companions.meal")}
-                      </label>
-                      <select
-                        name={`companions[${index}].meal`}
-                        value={companion.meal}
-                        onChange={(e) =>
-                          updateCompanion(companion.id, "meal", e.target.value)
-                        }
-                        className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
-                        required
-                      >
-                        <option value="meat">{t("rsvp.meal.meat")}</option>
-                        <option value="fish">{t("rsvp.meal.fish")}</option>
-                        <option value="vegetarian">
-                          {t("rsvp.meal.vegetarian")}
-                        </option>
-                        <option value="children">
-                          {t("rsvp.meal.enfant")}
-                        </option>
-                      </select>
-                    </div>
+                      <div className="mb-3">
+                        <label className="mb-2 block text-xs font-medium text-foreground">
+                          {t("rsvp.companions.attending")}
+                        </label>
+                        <select
+                          name={`companions[${index}].attending`}
+                          value={
+                            companion.attending === true
+                              ? "yes"
+                              : companion.attending === false
+                                ? "no"
+                                : ""
+                          }
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            const mapped =
+                              val === "yes"
+                                ? true
+                                : val === "no"
+                                  ? false
+                                  : null;
+                            updateCompanion(companion.id, "attending", mapped);
+                          }}
+                          required
+                          className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
+                        >
+                          <option value="" disabled hidden>
+                            {t("rsvp.companions.attending.pending")}
+                          </option>
+                          <option value="yes">
+                            {t("rsvp.companions.attending.yes")}
+                          </option>
+                          <option value="no">
+                            {t("rsvp.companions.attending.no")}
+                          </option>
+                        </select>
+                      </div>
 
-                    <div>
-                      <label className="mb-2 block text-xs font-medium text-foreground">
-                        {t("rsvp.companions.restrictions")}
-                      </label>
-                      <textarea
-                        name={`companions[${index}].restrictions`}
-                        value={companion.restrictions}
-                        onChange={(e) =>
-                          updateCompanion(
-                            companion.id,
-                            "restrictions",
-                            e.target.value,
-                          )
-                        }
-                        rows={2}
-                        className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
-                        placeholder={t(
-                          "rsvp.companions.restrictionsPlaceholder",
-                        )}
-                      />
+                      <div className="mb-3">
+                        <label className="mb-2 block text-xs font-medium text-foreground">
+                          {t("rsvp.companions.meal")}
+                        </label>
+                        <select
+                          name={`companions[${index}].meal`}
+                          value={companion.meal}
+                          onChange={(e) =>
+                            updateCompanion(
+                              companion.id,
+                              "meal",
+                              e.target.value,
+                            )
+                          }
+                          className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
+                          required
+                        >
+                          <option value="" disabled hidden>
+                            {t("rsvp.meal.select")}
+                          </option>
+                          <option value="meat">{t("rsvp.meal.meat")}</option>
+                          <option value="fish">{t("rsvp.meal.fish")}</option>
+                          <option value="vegetarian">
+                            {t("rsvp.meal.vegetarian")}
+                          </option>
+                          <option value="children">
+                            {t("rsvp.meal.enfant")}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="mb-2 block text-xs font-medium text-foreground">
+                          {t("rsvp.companions.restrictions")}
+                        </label>
+                        <textarea
+                          name={`companions[${index}].restrictions`}
+                          value={companion.restrictions}
+                          onChange={(e) =>
+                            updateCompanion(
+                              companion.id,
+                              "restrictions",
+                              e.target.value,
+                            )
+                          }
+                          rows={2}
+                          className="w-full resize-none rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
+                          placeholder={t(
+                            "rsvp.companions.restrictionsPlaceholder",
+                          )}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
 
@@ -349,6 +421,8 @@ export function RSVPForm() {
             id="message"
             name="message"
             rows={3}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
             className="w-full resize-none rounded-lg border border-border bg-card px-4 py-3 text-sm text-card-foreground outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
           />
         </div>
@@ -356,7 +430,7 @@ export function RSVPForm() {
         {/* Submit */}
         <button
           type="submit"
-          disabled={!attending || submitting}
+          disabled={submitting}
           className="w-full rounded-full shadow-xl shadow-black/20 ring-1 ring-white/5 bg-primary py-4 text-sm font-medium tracking-wide text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {submitting ? "Envoi..." : t("rsvp.submit")}

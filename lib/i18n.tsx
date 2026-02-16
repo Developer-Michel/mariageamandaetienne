@@ -28,13 +28,13 @@ export const translations: Translations = {
   "nav.contact": { fr: "Contact", en: "Contact" },
 
   // Hero
-  "hero.date": { fr: "22 Aout 2026", en: "August 22, 2026" },
+  "hero.date": { fr: "22 août 2026", en: "August 22, 2026" },
   "hero.venue": {
     fr: "Mouton Village, Saint-Charles-sur-Richelieu",
     en: "Mouton Village, Saint-Charles-sur-Richelieu",
   },
-  "hero.cta.details": { fr: "Voir les details", en: "View Details" },
-  "hero.cta.rsvp": { fr: "Confirmer ma presence", en: "Confirm Attendance" },
+  "hero.cta.details": { fr: "Voir les détails", en: "View Details" },
+  "hero.cta.rsvp": { fr: "Confirmer ma présence", en: "Confirm Attendance" },
   "hero.countdown.days": { fr: "Jours", en: "Days" },
   "hero.countdown.hours": { fr: "Heures", en: "Hours" },
   "hero.countdown.minutes": { fr: "Minutes", en: "Minutes" },
@@ -43,11 +43,11 @@ export const translations: Translations = {
   // Story
   "story.title": { fr: "Notre histoire", en: "Our Story" },
   "story.chapter1.title": {
-    fr: "La premiere rencontre",
+    fr: "La première rencontre",
     en: "When We First Met",
   },
   "story.chapter1.text": {
-    fr: "Tout a commnercer avec Étienne qui attandait devant son auto ",
+    fr: "Tout a commencé avec Étienne qui attendait devant sa voiture",
     en: "It all started on an ordinary day that became extraordinary. A glance, a smile, and the beginning of a beautiful adventure.",
   },
   "story.chapter2.title": {
@@ -55,7 +55,7 @@ export const translations: Translations = {
     en: "Our First Date",
   },
   "story.chapter2.text": {
-    fr: "pendant un mois ils apprirent à se connaître, partagèrent des rires et eurent la certitude que quelque chose de spécial était en train de naître.",
+    fr: "Pendant un mois, ils apprirent à se connaître, partagèrent des rires et eurent la certitude que quelque chose de spécial était en train de naître.",
     en: "A coffee that lasted hours, shared laughter, and the certainty that something special was blossoming.",
   },
   "story.chapter3.title": {
@@ -63,7 +63,7 @@ export const translations: Translations = {
     en: "The Proposal",
   },
   "story.chapter3.text": {
-    fr: "Ils ont commencer à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
+    fr: "Ils ont commencé à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
     en: "A magical moment, a bent knee, and a yes that sealed our promise of eternal love.",
   },
   "story.chapter4.title": {
@@ -71,7 +71,7 @@ export const translations: Translations = {
     en: "Buying a House Together",
   },
   "story.chapter4.text": {
-    fr: "Ils ont commencer à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
+    fr: "Ils ont commencé à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
     en: "A magical moment, a bent knee, and a yes that sealed our promise of eternal love.",
   },
   "story.chapter5.title": {
@@ -79,7 +79,7 @@ export const translations: Translations = {
     en: "Adoption",
   },
   "story.chapter5.text": {
-    fr: "Ils ont commencer à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
+    fr: "Ils ont commencé à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
     en: "A magical moment, a bent knee, and a yes that sealed our promise of eternal love.",
   },
   "story.chapter6.title": {
@@ -87,84 +87,84 @@ export const translations: Translations = {
     en: "The Proposal",
   },
   "story.chapter6.text": {
-    fr: "Ils ont commencer à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
+    fr: "Ils ont commencé à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
     en: "A magical moment, a bent knee, and a yes that sealed our promise of eternal love.",
   },
 
   // Info
   "info.title": { fr: "Infos pratiques", en: "Practical Information" },
   "info.schedule.title": { fr: "Horaire", en: "Schedule" },
-  "info.schedule.ceremony": { fr: "Ceremonie", en: "Ceremony" },
+  "info.schedule.ceremony": { fr: "Cérémonie", en: "Ceremony" },
   "info.schedule.cocktail": { fr: "Cocktail", en: "Cocktail Hour" },
   "info.schedule.dinner": { fr: "Souper", en: "Dinner" },
-  "info.schedule.party": { fr: "Soiree dansante", en: "Dance Party" },
+  "info.schedule.party": { fr: "Soirée dansante", en: "Dance Party" },
   "info.address.title": { fr: "Adresse", en: "Address" },
   "info.address.text": {
     fr: "12 Chem. des Patriotes, Saint-Charles-sur-Richelieu, QC J0H 2G0",
     en: "12 Chem. des Patriotes, Saint-Charles-sur-Richelieu, QC J0H 2G0",
   },
   "info.address.venue": { fr: "Mouton Village", en: "Mouton Village" },
-  "info.accommodation.title": { fr: "Hebergement", en: "Accommodation" },
+  "info.accommodation.title": { fr: "Hébergement", en: "Accommodation" },
   "info.accommodation.text": {
-    fr: "Plusieurs options d'hebergement sont disponibles a proximite. Nous vous recommandons de reserver tot.",
+    fr: "Plusieurs options d'hébergement sont disponibles à proximité. Nous vous recommandons de réserver tôt.",
     en: "Several accommodation options are available nearby. We recommend booking early.",
   },
   "info.tips.title": { fr: "Conseils", en: "Tips" },
   "info.tips.text": {
-    fr: "Code vestimentaire: tenue de cocktail. Prevoyez des chaussures confortables pour la soiree dansante. Le stationnement est disponible sur place.",
+    fr: "Code vestimentaire : tenue de cocktail. Prévoyez des chaussures confortables pour la soirée dansante. Le stationnement est disponible sur place.",
     en: "Dress code: cocktail attire. Bring comfortable shoes for the dance party. Parking is available on site.",
   },
 
   // Party
   "party.title": { fr: "Les gens qui comptent", en: "People Who Matter" },
-  "party.role.mother": { fr: "Mere de la mariee", en: "Mother of the Bride" },
-  "party.role.father": { fr: "Pere du marie", en: "Father of the Groom" },
-  "party.role.bestman": { fr: "Temoin", en: "Best Man" },
+  "party.role.mother": { fr: "Mère de la mariée", en: "Mother of the Bride" },
+  "party.role.father": { fr: "Père du marié", en: "Father of the Groom" },
+  "party.role.bestman": { fr: "Témoin", en: "Best Man" },
   "party.role.maidofhonor": { fr: "Demoiselle d'honneur", en: "Maid of Honor" },
-  "party.role.groomsman": { fr: "Garcon d'honneur", en: "Groomsman" },
+  "party.role.groomsman": { fr: "Garçon d'honneur", en: "Groomsman" },
   "party.role.bridesmaid": { fr: "Demoiselle d'honneur", en: "Bridesmaid" },
-  "party.role.motherGroom": { fr: "Mere du marie", en: "Mother of the Groom" },
+  "party.role.motherGroom": { fr: "Mère du marié", en: "Mother of the Groom" },
   "party.role.fatherBride": {
-    fr: "Pere de la mariee",
+    fr: "Père de la mariée",
     en: "Father of the Bride",
   },
-  "party.role.sister": { fr: "Soeur de la mariee", en: "Sister of the Bride" },
-  "party.role.brother": { fr: "Frere du marie", en: "Brother of the Groom" },
-  "party.role.uncle": { fr: "Oncle du marie", en: "Uncle of the Groom" },
-  "party.role.aunt": { fr: "Tante de la mariee", en: "Aunt of the Bride" },
+  "party.role.sister": { fr: "Sœur de la mariée", en: "Sister of the Bride" },
+  "party.role.brother": { fr: "Frère du marié", en: "Brother of the Groom" },
+  "party.role.uncle": { fr: "Oncle du marié", en: "Uncle of the Groom" },
+  "party.role.aunt": { fr: "Tante de la mariée", en: "Aunt of the Bride" },
   "party.role.cousin": {
-    fr: "Cousine de la mariee",
+    fr: "Cousine de la mariée",
     en: "Cousin of the Bride",
   },
   "party.role.cousinGroom": {
-    fr: "Cousin du marie",
+    fr: "Cousin du marié",
     en: "Cousin of the Groom",
   },
   "party.role.friend": { fr: "Ami du couple", en: "Friend of the Couple" },
   "party.role.friendBride": {
-    fr: "Amie de la mariee",
+    fr: "Amie de la mariée",
     en: "Friend of the Bride",
   },
-  "party.role.friendGroom": { fr: "Ami du marie", en: "Friend of the Groom" },
+  "party.role.friendGroom": { fr: "Ami du marié", en: "Friend of the Groom" },
   "party.role.officiant": { fr: "Officiant", en: "Officiant" },
 
   // Gallery
   "gallery.title": { fr: "Galerie", en: "Gallery" },
   "gallery.before": { fr: "Avant", en: "Before" },
-  "gallery.after": { fr: "Apres", en: "After" },
+  "gallery.after": { fr: "Après", en: "After" },
   "gallery.close": { fr: "Fermer", en: "Close" },
 
   // RSVP
   "rsvp.title": {
-    fr: "Confirmez votre presence",
+    fr: "Confirmez votre présence",
     en: "Confirm Your Attendance",
   },
   "rsvp.subtitle": {
-    fr: "Nous avons hate de celebrer avec vous",
+    fr: "Nous avons hâte de célébrer avec vous",
     en: "We can't wait to celebrate with you",
   },
-  "rsvp.attending": { fr: "Serez-vous present(e)?", en: "Will you attend?" },
-  "rsvp.yes": { fr: "Oui, avec joie!", en: "Yes, with joy!" },
+  "rsvp.attending": { fr: "Serez-vous présent(e)?", en: "Will you attend?" },
+  "rsvp.yes": { fr: "Oui, avec joie !", en: "Yes, with joy!" },
   "rsvp.no": { fr: "Malheureusement, non", en: "Unfortunately, no" },
   "rsvp.guests": { fr: "Nombre d'accompagnateurs", en: "Number of guests" },
   "rsvp.allergies": {
@@ -172,16 +172,20 @@ export const translations: Translations = {
     en: "Allergies or dietary restrictions",
   },
   "rsvp.meal": { fr: "Choix de repas", en: "Meal choice" },
+  "rsvp.meal.select": {
+    fr: "Sélectionnez un repas",
+    en: "Select a meal",
+  },
   "rsvp.meal.meat": {
-    fr: "Filet de porc: qc bbq, sauce romesco noisette grillées, ecrasé de pdt, ail et poivrons",
+    fr: "Filet de porc : BBQ du Québec, sauce romesco noisettes grillées, écrasé de PDT, ail et poivrons",
     en: "Pork filet: QC BBQ, romesco sauce with grilled hazelnuts, mashed potatoes, garlic and peppers",
   },
   "rsvp.meal.fish": {
-    fr: "Surf & Turf: pièce de boeuf du boucher,chili crunch, maïs,acras de crevettes nordiques",
+    fr: "Surf & Turf : pièce de bœuf du boucher, chili crunch, maïs, acras de crevettes nordiques",
     en: "Surf & Turf: butcher's beef, chili crunch, corn, northern shrimp fritters",
   },
   "rsvp.meal.vegetarian": {
-    fr: "Végé: Polenta, légumes grillés,romesco, vierge de lentilles Beluga, noisette Saint-Hilaire",
+    fr: "Végé : Polenta, légumes grillés, romesco, vierge de lentilles Beluga, noisettes de Saint-Hilaire",
     en: "Végé:Polenta, grilled vegetables, romesco, Beluga lentil vinaigrette, Saint-Hilaire hazelnuts",
   },
   "rsvp.meal.enfant": {
@@ -189,12 +193,12 @@ export const translations: Translations = {
     en: "Children's menu",
   },
   "rsvp.message": {
-    fr: "Un petit mot pour les maries (optionnel)",
+    fr: "Un petit mot pour les mariés (optionnel)",
     en: "A note for the couple (optional)",
   },
-  "rsvp.submit": { fr: "Envoyer ma reponse", en: "Send my response" },
+  "rsvp.submit": { fr: "Envoyer ma réponse", en: "Send my response" },
   "rsvp.success": {
-    fr: "Merci pour votre reponse!",
+    fr: "Merci pour votre réponse !",
     en: "Thank you for your response!",
   },
   "rsvp.companions.title": { fr: "Accompagnateurs", en: "Companions" },
@@ -203,12 +207,25 @@ export const translations: Translations = {
     en: "Add a companion",
   },
   "rsvp.companions.none": {
-    fr: "Ajoutez un accompagnateur si vous venez accompagne(e).",
+    fr: "Ajoutez un accompagnateur si vous venez accompagné(e).",
     en: "Add a companion if you are not coming alone.",
   },
   "rsvp.companions.label": { fr: "Accompagnateur", en: "Companion" },
   "rsvp.companions.fullName": { fr: "Nom complet", en: "Full name" },
   "rsvp.companions.meal": { fr: "Choix du menu", en: "Menu choice" },
+  "rsvp.companions.attending": { fr: "Présence", en: "Attendance" },
+  "rsvp.companions.attending.pending": {
+    fr: "Pas de réponse",
+    en: "No response",
+  },
+  "rsvp.companions.attending.yes": {
+    fr: "Sera présent",
+    en: "Will attend",
+  },
+  "rsvp.companions.attending.no": {
+    fr: "Ne sera pas présent",
+    en: "Will not attend",
+  },
   "rsvp.companions.restrictions": {
     fr: "Restrictions ou allergies",
     en: "Restrictions or allergies",
@@ -220,18 +237,18 @@ export const translations: Translations = {
 
   // Reminder
   "reminder.text": { fr: "On se retrouve dans...", en: "See you in..." },
-  "reminder.cta": { fr: "Confirmer ma presence", en: "Confirm Attendance" },
+  "reminder.cta": { fr: "Confirmer ma présence", en: "Confirm Attendance" },
 
   // Contact
   "contact.title": { fr: "Contact", en: "Contact" },
   "contact.subtitle": {
-    fr: "N'hesitez pas a nous contacter pour toute question",
+    fr: "N'hésitez pas à nous contacter pour toute question",
     en: "Don't hesitate to reach out with any questions",
   },
   "contact.email": { fr: "Courriel", en: "Email" },
-  "contact.phone": { fr: "Telephone", en: "Phone" },
+  "contact.phone": { fr: "Téléphone", en: "Phone" },
   "contact.phone.secondary": {
-    fr: "Telephone secondaire",
+    fr: "Téléphone secondaire",
     en: "Secondary Phone",
   },
   "contact.cta": { fr: "Envoyer un courriel", en: "Send an Email" },
@@ -240,7 +257,7 @@ export const translations: Translations = {
   "common.remove": { fr: "Retirer", en: "Remove" },
 
   // Guest
-  "guest.badge": { fr: "Invite", en: "Guest" },
+  "guest.badge": { fr: "Invité", en: "Guest" },
 
   // Music
   "music.label": { fr: "Musique", en: "Music" },

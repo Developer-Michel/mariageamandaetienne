@@ -5,6 +5,7 @@ export type Companion = {
   fullName: string;
   meal: "meat" | "fish" | "vegetarian";
   restrictions?: string;
+  attending?: boolean | null;
 };
 
 type AnswerRow = Database["public"]["Tables"]["awnsers"]["Row"];

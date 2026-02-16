@@ -2,32 +2,41 @@
 
 import Image from "next/image";
 import { useScrollAnimation } from "@/hooks/use-scroll-animation";
-import { cn } from "@/lib/utils";
+import { cn, storageUrl } from "@/lib/utils";
 
 /* Each pair = one large static photo + one smaller photo that slides in over a corner */
 const pairs = [
   {
     main: {
-      src: "/images/wedding/IMG_6998.jpg",
+      src: storageUrl("IMG_6998.JPG", "/images/wedding/IMG_6998.JPG"),
       alt: "Amanda et Etienne dans le jardin",
     },
-    overlay: { src: "/images/wedding/IMG_6861.jpg", alt: "Detail des mains" },
+    overlay: {
+      src: storageUrl("IMG_6861.JPG", "/images/wedding/IMG_6861.JPG"),
+      alt: "Detail des mains",
+    },
     overlayPosition: "bottom-right" as const,
   },
   {
     main: {
-      src: "/images/wedding/IMG_6839.jpg",
+      src: storageUrl("IMG_6839.JPG", "/images/wedding/IMG_6839.JPG"),
       alt: "Rires sous le grand arbre",
     },
-    overlay: { src: "/images/wedding/IMG_6828.jpg", alt: "Le bouquet" },
+    overlay: {
+      src: storageUrl("IMG_6828.JPG", "/images/wedding/IMG_6828.JPG"),
+      alt: "Le bouquet",
+    },
     overlayPosition: "top-left" as const,
   },
   {
     main: {
-      src: "/images/wedding/IMG_6814.jpg",
+      src: storageUrl("IMG_6814.JPG", "/images/wedding/IMG_6814.JPG"),
       alt: "Danse au coucher du soleil",
     },
-    overlay: { src: "/images/wedding/IMG_6988.jpg", alt: "La reception" },
+    overlay: {
+      src: storageUrl("IMG_6988.JPG", "/images/wedding/IMG_6988.JPG"),
+      alt: "La reception",
+    },
     overlayPosition: "bottom-left" as const,
   },
 ];
@@ -136,7 +145,7 @@ export function Gallery() {
       <div className="overflow-hidden">
         {/* Subtle decorative line */}
 
-        <div className="mx-auto flex max-w-5xl flex-col gap-28 px-6 md:gap-40 md:px-8">
+        <div className="mx-auto flex max-w-5xl flex-col gap-16 px-6 md:gap-24 md:px-8">
           {pairs.map((pair, i) => (
             <PhotoPair key={i} {...pair} index={i} />
           ))}
