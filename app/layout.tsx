@@ -43,6 +43,9 @@ export default function RootLayout({
         className={`${playfair.variable} ${lora.variable} font-sans antialiased`}
       >
         {children}
+        <div className="pointer-events-none fixed bottom-4 right-4 text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground/70 md:text-xs">
+          Designed & developed by Michel Racicot
+        </div>
       </body>
     </html>
   );

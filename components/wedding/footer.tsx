@@ -7,7 +7,7 @@ export function Footer() {
 
   return (
     <footer className="border-t border-border bg-background px-4 py-8">
-      <div className="mx-auto max-w-6xl text-center">
+      <div className="relative mx-auto max-w-6xl text-center">
         <p className="font-serif text-lg font-light text-foreground">{"Amanda & Etienne"}</p>
         <p className="mt-1 text-xs text-muted-foreground">
           22.08.2026

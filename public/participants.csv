@@ -1,4 +1,0 @@
-type,id,full_name,email,lang,attending,meal_choice,allergies,message,email_sent_success,created_at,companion_index,companion_name,companion_attending,companion_meal,companion_restrictions
-participant,7700f86b-0bf5-424e-a7f0-4718b4e56ad5,zachaa,guitarmiche1029@gmail.com,fr,yes,fish,test stet,testset,true,2026-02-14T17:32:19.38644+00:00,,,,,
-participant,bf015d67-ca7a-42ed-aa1a-ac005ea44360,Michel Racicot,michel_racicot12@hotmail.ca,fr,yes,vegetarian,,,true,2026-02-13T20:18:04.127114+00:00,,,,,
-companion,bf015d67-ca7a-42ed-aa1a-ac005ea44360,Michel Racicot,michel_racicot12@hotmail.ca,fr,yes,vegetarian,,,true,2026-02-13T20:18:04.127114+00:00,1,Angelina Bayindir,yes,vegetarian,arachide

@@ -43,52 +43,44 @@ export const translations: Translations = {
   // Story
   "story.title": { fr: "Notre histoire", en: "Our Story" },
   "story.chapter1.title": {
-    fr: "La première rencontre",
-    en: "When We First Met",
+    fr: "Première rencontre",
+    en: "Our first date",
   },
   "story.chapter1.text": {
-    fr: "Tout a commencé avec Étienne qui attendait devant sa voiture",
-    en: "It all started on an ordinary day that became extraordinary. A glance, a smile, and the beginning of a beautiful adventure.",
+    fr: "Les deux amoureux ont vu le temps s'écouler, emportés par leur désir d’en apprendre davantage sur l’autre. Ce qui a  commencé autour d’une simple crème glacée s’est doucement prolongé jusqu’à fort tard, comme s’ils ne voulaient déjà plus se quitter.",
+    en: "The two strangers watched time slip by, swept up in their desire to learn more about each other. What began over a simple ice cream gently stretched late into the night, as if they already couldn’t bear to say goodbye.",
   },
   "story.chapter2.title": {
-    fr: "L'amour fleurit",
-    en: "Our First Date",
+    fr: "Devenir un couple",
+    en: "Becoming a couple",
   },
   "story.chapter2.text": {
-    fr: "Pendant un mois, ils apprirent à se connaître, partagèrent des rires et eurent la certitude que quelque chose de spécial était en train de naître.",
-    en: "A coffee that lasted hours, shared laughter, and the certainty that something special was blossoming.",
+    fr: "Pendant les deux premiers mois, ils ont peu à peu découvert le monde de l’autre, se rapprochant un peu plus chaque jour. Ils ont fait la distance qui les séparait simplement pour être ensemble.Lorsqu’ils sont devenu un couple, il ont eu l’impression que tout prenait enfin sens.",
+    en: "For the next two months, they both slowly uncovered each other’s world, growing closer with every passing day. They crossed the distance just to be together, choosing each other again and again. When they finally became a couple, it felt as though everything had fallen into place.",
   },
   "story.chapter3.title": {
-    fr: "L'officialisation du couple",
-    en: "The Proposal",
+    fr: "Notre parcours ensemble",
+    en: "The journey to us",
   },
   "story.chapter3.text": {
-    fr: "Ils ont commencé à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
-    en: "A magical moment, a bent knee, and a yes that sealed our promise of eternal love.",
+    fr: "Au fil des années, leur amour s’est approfondi davantage. Ce qui a commencé comme de l’excitation s’est transformé en quelque chose de plus stable et sûr. Avec chaque regard et chaque rire partagé, le couple tombait un peu plus amoureux. Habiter ensemble était la prochaine étape - non seulement partager un espace mais construire une vie et un avenir ensemble.",
+    en: "As months turned into years, the love for each other deepened. What began as excitement became steadier and more certain. With every shared laugh, they fell more and more in love. Moving in together felt like the most natural thing — not just sharing a space, but building a home, a life, and a future hand in hand.",
   },
   "story.chapter4.title": {
-    fr: "Achat de la maison ensemble",
-    en: "Buying a House Together",
+    fr: "Construire une vie",
+    en: "Building a life",
   },
   "story.chapter4.text": {
-    fr: "Ils ont commencé à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
-    en: "A magical moment, a bent knee, and a yes that sealed our promise of eternal love.",
+    fr: "Alors qu’ils s'installent dans leur rythme paisible et partagé, ils ont accueilli deux chats dans leur vie — de petites boules d’amour qui les font vivre des émotions fortes, tant dans le cœur que dans l’esprit.",
+    en: "As they settled into their calm, shared rhythm, they welcomed two cats into their lives — little bundles of love who whisk them away on daily adventures, both in heart and in spirit.",
   },
   "story.chapter5.title": {
-    fr: "Adoption d'enfant",
-    en: "Adoption",
+    fr: "La demande en mariage",
+    en: "The proposal",
   },
   "story.chapter5.text": {
-    fr: "Ils ont commencé à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
-    en: "A magical moment, a bent knee, and a yes that sealed our promise of eternal love.",
-  },
-  "story.chapter6.title": {
-    fr: "La demande",
-    en: "The Proposal",
-  },
-  "story.chapter6.text": {
-    fr: "Ils ont commencé à planifier une vie ensemble, remplie d'amour, de complicité et d'aventures partagées. Un moment magique, un genou à terre, et un oui qui a scellé notre promesse d'amour éternel.",
-    en: "A magical moment, a bent knee, and a yes that sealed our promise of eternal love.",
+    fr: "Etienne a recréé la magie de leurs premiers rendez-vous —partant de chaque petit sourire allant jusqu'à leurs endroits préférés — avant de poser enfin la grande question. C’était comme s’il avait soigneusement tissé l’histoire de leur amour, les conduisant tout naturellement à ce moment inoubliable.",
+    en: "Etienne recreated the magic of their early dates - from the little laughs to the favorite spots they shared - before finally asking the big question. It was as if he had carefully stitched together the story of their love, leading them to that unforgettable moment ",
   },
 
   // Info
