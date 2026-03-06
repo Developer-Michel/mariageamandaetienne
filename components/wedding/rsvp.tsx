@@ -25,6 +25,15 @@ export function RSVPForm() {
   const [editing, setEditing] = useState(true);
 
   useEffect(() => {
+    if (editing) return;
+    const section = document.getElementById("rsvp");
+    if (!section) return;
+    const top = section.getBoundingClientRect().top + window.scrollY;
+    const offset = 32; // keep section title visible below any sticky header
+    window.scrollTo({ top: Math.max(0, top - offset), behavior: "smooth" });
+  }, [editing]);
+
+  useEffect(() => {
     if (!participant) return;
     const hasResponse = participant.attending !== null;
     setEditing(!hasResponse);

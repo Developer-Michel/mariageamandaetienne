@@ -83,7 +83,7 @@ const buildHtml = (opts: {
   <title>Invitation — Amanda & Étienne</title>
   <style>
     body { margin:0; padding:0; background:#ffffff; font-family: "Times New Roman", Georgia, serif; color:#1f1a17; }
-    .wrapper { width:100%; padding:32px 14px; background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.84)), url('${storageBaseUrl}/IMG_6993.JPG') center/cover no-repeat; }
+    .wrapper { width:100%; padding:32px 14px; background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.84)), url('${storageBaseUrl}/5.JPG') center/cover no-repeat; }
     .card { max-width: 680px; margin: 0 auto; background: rgba(255, 255, 255, 0.2); border: 1px solid #e8e0d6; border-radius: 20px; overflow: hidden; box-shadow: 0 14px 38px rgba(17, 12, 8, 0.08); }
     .topbar { height: 10px; background: linear-gradient(90deg,#1f1a17,#3c2e27,#1f1a17); }
     .content { padding: 38px 30px 30px; text-align:center; }
