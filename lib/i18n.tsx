@@ -47,7 +47,7 @@ export const translations: Translations = {
     en: "Our first date",
   },
   "story.chapter1.text": {
-    fr: "Les deux amoureux ont vu le temps s'écouler, emportés par leur désir d’en apprendre davantage sur l’autre. Ce qui a  commencé autour d’une simple crème glacée s’est doucement prolongé jusqu’à fort tard, comme s’ils ne voulaient déjà plus se quitter.",
+    fr: "Les deux amoureux ont vu le temps s'écouler, emportés par leur désir d’en apprendre davantage sur l’autre. Ce qui a commencé autour d’une simple crème glacée s’est doucement prolongé jusqu’à fort tard, comme s’ils ne voulaient déjà plus se quitter.",
     en: "The two strangers watched time slip by, swept up in their desire to learn more about each other. What began over a simple ice cream gently stretched late into the night, as if they already couldn’t bear to say goodbye.",
   },
   "story.chapter2.title": {
@@ -55,7 +55,7 @@ export const translations: Translations = {
     en: "Becoming a couple",
   },
   "story.chapter2.text": {
-    fr: "Pendant les deux premiers mois, ils ont peu à peu découvert le monde de l’autre, se rapprochant un peu plus chaque jour. Ils ont fait la distance qui les séparait simplement pour être ensemble.Lorsqu’ils sont devenu un couple, il ont eu l’impression que tout prenait enfin sens.",
+    fr: "Pendant les deux premiers mois, ils ont peu à peu découvert le monde de l’autre, se rapprochant un peu plus chaque jour. Ils ont fait la distance qui les séparait simplement pour être ensemble. Lorsqu’ils sont devenus un couple, ils ont eu l’impression que tout prenait enfin sens.",
     en: "For the next two months, they both slowly uncovered each other’s world, growing closer with every passing day. They crossed the distance just to be together, choosing each other again and again. When they finally became a couple, it felt as though everything had fallen into place.",
   },
   "story.chapter3.title": {
@@ -64,7 +64,7 @@ export const translations: Translations = {
   },
   "story.chapter3.text": {
     fr: "Au fil des années, leur amour s’est approfondi davantage. Ce qui a commencé comme de l’excitation s’est transformé en quelque chose de plus stable et sûr. Avec chaque regard et chaque rire partagé, le couple tombait un peu plus amoureux. Habiter ensemble était la prochaine étape - non seulement partager un espace mais construire une vie et un avenir ensemble.",
-    en: "As months turned into years, the love for each other deepened. What began as excitement became steadier and more certain. With every shared laugh, they fell more and more in love. Moving in together felt like the most natural thing — not just sharing a space, but building a home, a life, and a future hand in hand.",
+    en: "As months turned into years, their love for each other deepened. What began as excitement became steadier and more certain. With every shared laugh, they fell more and more in love. Moving in together felt like the most natural thing — not just sharing a space, but building a home, a life, and a future hand in hand.",
   },
   "story.chapter4.title": {
     fr: "Construire une vie",
@@ -79,8 +79,8 @@ export const translations: Translations = {
     en: "The proposal",
   },
   "story.chapter5.text": {
-    fr: "Etienne a recréé la magie de leurs premiers rendez-vous —partant de chaque petit sourire allant jusqu'à leurs endroits préférés — avant de poser enfin la grande question. C’était comme s’il avait soigneusement tissé l’histoire de leur amour, les conduisant tout naturellement à ce moment inoubliable.",
-    en: "Etienne recreated the magic of their early dates - from the little laughs to the favorite spots they shared - before finally asking the big question. It was as if he had carefully stitched together the story of their love, leading them to that unforgettable moment ",
+    fr: "Etienne a recréé la magie de leurs premiers rendez-vous — partant de chaque petit sourire allant jusqu'à leurs endroits préférés — avant de poser enfin la grande question. C’était comme s’il avait soigneusement tissé l’histoire de leur amour, les conduisant tout naturellement à ce moment inoubliable.",
+    en: "Etienne recreated the magic of their early dates - from the little laughs to the favorite spots they shared - before finally asking the big question. It was as if he had carefully stitched together the story of their love, leading them to that unforgettable moment.",
   },
 
   // Info
@@ -88,6 +88,10 @@ export const translations: Translations = {
   "info.schedule.title": { fr: "Horaire", en: "Schedule" },
   "info.schedule.ceremony": { fr: "Cérémonie", en: "Ceremony" },
   "info.schedule.cocktail": { fr: "Cocktail", en: "Cocktail Hour" },
+  "info.schedule.enter": {
+    fr: "Entrée dans la salle",
+    en: "Seating in the hall",
+  },
   "info.schedule.dinner": { fr: "Souper", en: "Dinner" },
   "info.schedule.party": { fr: "Soirée dansante", en: "Dance Party" },
   "info.address.title": { fr: "Adresse", en: "Address" },
@@ -178,7 +182,7 @@ export const translations: Translations = {
   },
   "rsvp.meal.vegetarian": {
     fr: "Végé : Polenta, légumes grillés, romesco, vierge de lentilles Beluga, noisettes de Saint-Hilaire",
-    en: "Végé:Polenta, grilled vegetables, romesco, Beluga lentil vinaigrette, Saint-Hilaire hazelnuts",
+    en: "Végé: Polenta, grilled vegetables, romesco, Beluga lentil vinaigrette, Saint-Hilaire hazelnuts",
   },
   "rsvp.meal.enfant": {
     fr: "Menu enfant",
