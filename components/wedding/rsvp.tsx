@@ -88,12 +88,13 @@ export function RSVPForm() {
       return;
     }
 
-    const mealMap: Record<string, "meat" | "fish" | "vegetarian"> = {
-      porc: "meat",
-      surfnturf: "fish",
-      vegetarian: "vegetarian",
-      children: "meat",
-    };
+    const mealMap: Record<string, "meat" | "fish" | "vegetarian" | "children"> =
+      {
+        porc: "meat",
+        surfnturf: "fish",
+        vegetarian: "vegetarian",
+        children: "children",
+      };
 
     const payload: ParticipantUpdate = {
       attending: attending === "yes" ? true : attending === "no" ? false : null,
@@ -259,7 +260,6 @@ export function RSVPForm() {
                 <option value="porc">{t("rsvp.meal.meat")}</option>
                 <option value="surfnturf">{t("rsvp.meal.fish")}</option>
                 <option value="vegetarian">{t("rsvp.meal.vegetarian")}</option>
-                <option value="children">{t("rsvp.meal.enfant")}</option>
               </select>
             </div>
 

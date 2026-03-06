@@ -3,7 +3,7 @@ import type { Locale } from "./i18n";
 
 export type Companion = {
   fullName: string;
-  meal: "meat" | "fish" | "vegetarian";
+  meal: "meat" | "fish" | "vegetarian" | "children";
   restrictions?: string;
   attending?: boolean | null;
 };
