@@ -111,6 +111,23 @@ export const translations: Translations = {
     en: "Dress code: cocktail attire. Bring comfortable shoes for the dance party. Parking is available on site.",
   },
 
+  // Hotel
+  "hotel.title": {
+    fr: "Hôtel Rive Gauche",
+    en: "Hôtel Rive Gauche",
+  },
+  "hotel.subtitle": {
+    fr: "Option d'hébergement recommandée à proximité",
+    en: "Recommended nearby accommodation",
+  },
+  "hotel.instructions": {
+    fr: "En appelant directement à la réception de l'hôtel : 450-467-4477 ou via le site internet : Reservations | Hôtel Rive Gauche en mentionnant le code groupe (195529).",
+    en: "Call the hotel front desk at 450-467-4477 or book on the Reservations | Hôtel Rive Gauche site and mention the group code (195529).",
+  },
+  "hotel.call": { fr: "Téléphone", en: "Phone" },
+  "hotel.online": { fr: "Réservation en ligne", en: "Online booking" },
+  "hotel.groupCode": { fr: "Code groupe", en: "Group code" },
+
   // Party
   "party.title": { fr: "Les gens qui comptent", en: "People Who Matter" },
   "party.role.mother": { fr: "Mère de la mariée", en: "Mother of the Bride" },

@@ -80,13 +80,15 @@ const buildHtml = (opts: {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <meta name="supported-color-schemes" content="light" />
   <title>Invitation — Amanda & Étienne</title>
   <style>
     body { margin:0; padding:0; background:#ffffff; font-family: "Times New Roman", Georgia, serif; color:#1f1a17; }
     .wrapper { width:100%; padding:32px 14px; background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.84)), url('${storageBaseUrl}/5.JPG') center/cover no-repeat; }
     .card { max-width: 680px; margin: 0 auto; background: rgba(255, 255, 255, 0.2); border: 1px solid #e8e0d6; border-radius: 20px; overflow: hidden; box-shadow: 0 14px 38px rgba(17, 12, 8, 0.08); }
     .topbar { height: 10px; background: linear-gradient(90deg,#1f1a17,#3c2e27,#1f1a17); }
-    .content { padding: 38px 30px 30px; text-align:center; }
+    .content { padding: 38px 30px 30px; text-align:center; color:#1f1a17; }
     .brand { display:flex; align-items:center; justify-content:center; gap:16px; margin: 10px auto 22px; }
     .icon { width: 56px; height: 56px; border-radius: 14px; border: 1px solid #e8e0d6; padding: 8px; object-fit: cover; box-shadow: 0 6px 18px rgba(0,0,0,0.06); background:#fff; }
     .logo { width: 180px; height: auto; display:block; }
@@ -95,7 +97,7 @@ const buildHtml = (opts: {
     .subtitle { margin: 0 0 24px; font-size: 16px; color:#3b3129; line-height: 1.65; }
     .divider { width: 120px; height: 1px; background: #e6ddd2; margin: 20px auto; }
     .details { margin: 20px auto 12px; max-width: 540px; text-align: left; border: 1px solid #e9dfd4; border-radius: 16px; padding: 18px 18px 10px; }
-    .row { display:flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid #e9dfd4; }
+    .row { display:flex; gap: 14px; padding: 10px 0; border-bottom: 1px solid #e9dfd4; color:#1f1a17; }
     .row:last-child { border-bottom:none; }
     .label { width: 110px; color:#7a6f64; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
     .value { flex:1; color:#1f1a17; font-size: 15px; line-height: 1.55; }
@@ -104,8 +106,8 @@ const buildHtml = (opts: {
     .cta { display:inline-block; background:#1f1a17; color:#fff !important; text-decoration:none; padding: 14px 20px; border-radius: 12px; font-size: 15px; letter-spacing: 0.02em; box-shadow: 0 10px 24px rgba(31,26,23,0.18); }
     .cta:hover { background:#2b241f; }
     .note { margin: 16px 0 0; font-size: 13px; color:#6f655b; line-height: 1.65; }
-    .footer { padding: 18px 18px 24px; text-align:center; font-family: Arial, Helvetica, sans-serif; font-size: 12px; color:#7a7268; }
-    .smalllink { color:#7a7268; text-decoration: underline; }
+    .footer { padding: 18px 18px 24px; text-align:center; font-family: Arial, Helvetica, sans-serif; font-size: 12px; color:#4d443c; background:#f7f1e8; }
+    .smalllink { color:#2b241f; text-decoration: underline; }
     @media (max-width: 480px) { .content { padding: 30px 18px 24px; } h1 { font-size: 30px; } .label { width: 92px; } .row { display:block; } .label { margin-bottom: 4px; } }
   </style>
 </head>
