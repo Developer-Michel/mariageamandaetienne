@@ -20,9 +20,9 @@ export const metadata: Metadata = {
   description:
     "Joignez-vous a nous pour celebrer notre mariage le 22 aout 2026 au Mouton Village, Saint-Charles-sur-Richelieu.",
   icons: {
-    icon: storageUrl("icon.png", "/icon.png"),
-    shortcut: storageUrl("icon.png", "/icon.png"),
-    apple: storageUrl("icon.png", "/icon.png"),
+    icon:  "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
   },
 };
 

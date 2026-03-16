@@ -4,6 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import { Section, SectionHeader } from "./section";
 import Image from "next/image.js";
 const row1 = [
+  { name: "Marco", roleKey: "party.role.groomsman", initials: "M" },
   { name: "Alex", roleKey: "party.role.groomsman", initials: "A" },
   { name: "Alexandra", roleKey: "party.role.bridesmaid", initials: "A" },
   { name: "Renaud", roleKey: "party.role.groomsman", initials: "R" },

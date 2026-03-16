@@ -13,7 +13,7 @@ export function Reminder() {
         <div
           className="h-full w-full bg-cover bg-center"
           style={{
-            backgroundImage: `url('${storageUrl("IMG_6867.JPG", "/images/wedding/IMG_6867.JPG ")}')`,
+            backgroundImage: `https://ebgkchlrtcmsmzbzjbkp.supabase.co/storage/v1/object/public/wedding/Main/IMG_6867.JPG?width=1920&format=avif`,
             backgroundPosition: "center 45%",
           }}
         />

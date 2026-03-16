@@ -8,33 +8,51 @@ import { cn, storageUrl } from "@/lib/utils";
 const pairs = [
   {
     main: {
-      src: storageUrl("IMG_6998.JPG", "/images/wedding/IMG_6998.JPG"),
+      src: storageUrl(
+        "IMG_6998.JPG",
+        "/images/wedding/IMG_6998.JPG?width=800&format=avif",
+      ),
       alt: "Amanda et Etienne dans le jardin",
     },
     overlay: {
-      src: storageUrl("IMG_6861.JPG", "/images/wedding/IMG_6861.JPG"),
+      src: storageUrl(
+        "IMG_6861.JPG",
+        "/images/wedding/IMG_6861.JPG?width=400&format=avif",
+      ),
       alt: "Detail des mains",
     },
     overlayPosition: "bottom-right" as const,
   },
   {
     main: {
-      src: storageUrl("IMG_6839.JPG", "/images/wedding/IMG_6839.JPG"),
+      src: storageUrl(
+        "IMG_6839.JPG",
+        "/images/wedding/IMG_6839.JPG?width=800&format=avif",
+      ),
       alt: "Rires sous le grand arbre",
     },
     overlay: {
-      src: storageUrl("IMG_6828.JPG", "/images/wedding/IMG_6828.JPG"),
+      src: storageUrl(
+        "IMG_6828.JPG",
+        "/images/wedding/IMG_6828.JPG?width=400&format=avif",
+      ),
       alt: "Le bouquet",
     },
     overlayPosition: "top-left" as const,
   },
   {
     main: {
-      src: storageUrl("IMG_6814.JPG", "/images/wedding/IMG_6814.JPG"),
+      src: storageUrl(
+        "IMG_6814.JPG",
+        "/images/wedding/IMG_6814.JPG?width=800&format=avif",
+      ),
       alt: "Danse au coucher du soleil",
     },
     overlay: {
-      src: storageUrl("IMG_6988.JPG", "/images/wedding/IMG_6988.JPG"),
+      src: storageUrl(
+        "IMG_6988.JPG",
+        "/images/wedding/IMG_6988.JPG?width=400&format=avif",
+      ),
       alt: "La reception",
     },
     overlayPosition: "bottom-left" as const,
