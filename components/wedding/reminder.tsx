@@ -2,7 +2,6 @@
 
 import { useI18n } from "@/lib/i18n";
 import { Countdown } from "./countdown";
-import { storageUrl } from "@/lib/utils";
 
 export function Reminder() {
   const { t } = useI18n();

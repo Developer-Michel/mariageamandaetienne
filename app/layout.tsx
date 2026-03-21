@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Lora } from "next/font/google";
-import { storageUrl } from "@/lib/utils";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
   description:
     "Joignez-vous a nous pour celebrer notre mariage le 22 aout 2026 au Mouton Village, Saint-Charles-sur-Richelieu.",
   icons: {
-    icon:  "/icon.svg",
+    icon: "/icon.svg",
     shortcut: "/icon.svg",
     apple: "/icon.svg",
   },

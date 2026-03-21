@@ -101,8 +101,10 @@ export function RSVPForm() {
       meal_choice: attending === "yes" ? mealMap[mealChoice] : null,
       allergies: allergies.trim() || null,
       message: message.trim() || null,
-      accompanists:
-        attending === "yes" ? companions.map(({ id, ...rest }) => rest) : [],
+      accompanists: companions.map(({ id, ...rest }) => ({
+        ...rest,
+        attending: attending === "no" ? false : rest.attending,
+      })),
     };
 
     setSubmitting(true);
@@ -115,6 +117,16 @@ export function RSVPForm() {
       setSubmitError(updateError.message);
       setSubmitting(false);
       return;
+    }
+
+    try {
+      await fetch("/api/rsvp/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ participantId: guestToken }),
+      });
+    } catch (emailError) {
+      console.error("Failed to send confirmation email", emailError);
     }
 
     setSubmitting(false);

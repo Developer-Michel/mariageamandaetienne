@@ -4,7 +4,6 @@ import { useI18n } from "@/lib/i18n";
 import { useGuest } from "@/lib/guest";
 import { Countdown } from "./countdown";
 import Image from "next/image";
-import { storageUrl } from "@/lib/utils";
 
 export function Hero() {
   const { t } = useI18n();
@@ -34,9 +33,7 @@ export function Hero() {
       {/* Fixed background wrapper so the image stays behind content; inner layer translates for slower follow */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <Image
-          src={
-            "https://ebgkchlrtcmsmzbzjbkp.supabase.co/storage/v1/object/public/wedding/Main/IMG_6867.JPG?width=1920&format=avif"
-          }
+          src={"/images/wedding/Main/IMG_6867.JPG"}
           alt="Amanda et Etienne"
           fill
           className="object-cover object-center"

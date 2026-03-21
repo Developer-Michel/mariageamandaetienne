@@ -3,7 +3,7 @@
 import { useI18n } from "@/lib/i18n";
 import { Section, SectionHeader } from "./section";
 import { useStaggerReveal } from "@/hooks/use-scroll-animation";
-import { cn, storageUrl } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 const scheduleItems = [
   { time: "15:30", key: "info.schedule.ceremony" },
@@ -84,13 +84,13 @@ export function Info() {
               {t("info.address.text")}
             </p>
 
-            <div className="relative mt-4 aspect-[3/4] w-full max-w-md overflow-hidden rounded-lg shadow-sm sm:max-w-lg md:max-w-xl">
+            <div className="h-[400px] w-50 max-w-md overflow-hidden rounded-lg shadow-sm">
               <Image
-                src={storageUrl("mouton.png", "/images/wedding/mouton.png")}
+                src="/images/wedding/main/mouton.png"
                 alt="Amanda et Etienne"
-                fill
-                className="object-cover object-center"
-                priority
+                width={300}
+                height={800}
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
