@@ -42,12 +42,14 @@ export default function AdminPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editSaving, setEditSaving] = useState(false);
   const [editError, setEditError] = useState("");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState({
     fullName: "",
     email: "",
     lang: "fr" as "fr" | "en",
     attending: null as boolean | null,
-    meal_choice: null as "meat" | "fish" | "vegetarian" | null,
+    accompanists: [] as Companion[],
+    meal_choice: "meat" as "meat" | "fish" | "vegetarian" | "children" | null,
   });
 
   useEffect(() => {
@@ -286,6 +288,7 @@ export default function AdminPage() {
       email: participant.email || "",
       lang: participant.lang,
       attending: participant.attending,
+      accompanists: participant.accompanists || [],
       meal_choice: participant.meal_choice || null,
     });
   };
@@ -293,6 +296,37 @@ export default function AdminPage() {
   const cancelEdit = () => {
     setEditingId(null);
     setEditError("");
+  };
+
+  const updateEditCompanion = (index: number, updates: Partial<Companion>) => {
+    setEditForm((prev) => ({
+      ...prev,
+      accompanists: prev.accompanists.map((companion, i) =>
+        i === index ? { ...companion, ...updates } : companion,
+      ),
+    }));
+  };
+
+  const removeEditCompanion = (index: number) => {
+    setEditForm((prev) => ({
+      ...prev,
+      accompanists: prev.accompanists.filter((_, i) => i !== index),
+    }));
+  };
+
+  const addEditCompanion = () => {
+    setEditForm((prev) => ({
+      ...prev,
+      accompanists: [
+        ...prev.accompanists,
+        {
+          fullName: "",
+          meal: "meat",
+          restrictions: "",
+          attending: null,
+        },
+      ],
+    }));
   };
 
   const saveEdit = async () => {
@@ -309,6 +343,7 @@ export default function AdminPage() {
         editForm.attending === true && editForm.meal_choice
           ? editForm.meal_choice
           : undefined,
+      accompanists: editForm.accompanists.map(({ ...rest }) => rest),
     } satisfies Partial<ParticipantInsert>;
 
     try {
@@ -329,6 +364,44 @@ export default function AdminPage() {
       setEditError(message);
     } finally {
       setEditSaving(false);
+    }
+  };
+
+  const deleteParticipant = async (participant: Participant) => {
+    const confirmed = window.confirm(
+      `Supprimer ${participant.full_name} ? Cette action est irreversible.`,
+    );
+    if (!confirmed) return;
+
+    setFetchError("");
+    setEditError("");
+    setDeletingId(participant.id);
+
+    try {
+      const { error } = await supabase
+        .from("awnsers")
+        .delete()
+        .eq("id", participant.id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (editingId === participant.id) {
+        setEditingId(null);
+      }
+
+      await loadParticipants();
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Echec de la suppression.";
+      if (editingId === participant.id) {
+        setEditError(message);
+      } else {
+        setFetchError(message);
+      }
+    } finally {
+      setDeletingId(null);
     }
   };
   const addCompanion = () => {
@@ -870,22 +943,123 @@ export default function AdminPage() {
                               <option value="yes">Présent</option>
                               <option value="no">Absent</option>
                             </select>
-                            <input
+                            <select
                               value={editForm.meal_choice || ""}
                               onChange={(e) =>
                                 setEditForm((prev) => ({
                                   ...prev,
-                                  meal_choice: e.target.value as
-                                    | "meat"
-                                    | "fish"
-                                    | "vegetarian"
-                                    | null,
+                                  meal_choice: e.target.value
+                                    ? (e.target.value as
+                                        | "meat"
+                                        | "fish"
+                                        | "vegetarian")
+                                    : null,
                                 }))
                               }
-                              placeholder="Menu"
                               disabled={editForm.attending !== true}
                               className="flex-1 min-w-[120px] rounded-lg border border-border bg-card px-3 py-2 text-xs text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
-                            />
+                            >
+                              <option
+                                value=""
+                                aria-placeholder="select an option"
+                              ></option>
+                              <option value="meat">Viande</option>
+                              <option value="fish">Poisson</option>
+                              <option value="vegetarian">Vegetarien</option>
+                            </select>
+                          </div>
+                          <div className="mt-3 space-y-2 rounded-lg border border-border bg-background p-3">
+                            <div className="flex items-center justify-between">
+                              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                                Accompagnateurs
+                              </p>
+                              <button
+                                type="button"
+                                onClick={addEditCompanion}
+                                disabled={editSaving || deletingId === p.id}
+                                className="rounded-full border border-border px-3 py-1 text-[11px] font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60"
+                              >
+                                Ajouter
+                              </button>
+                            </div>
+                            {editForm.accompanists.length === 0 && (
+                              <p className="text-xs text-muted-foreground">
+                                Aucun accompagnateur. Ajoutez-en un.
+                              </p>
+                            )}
+                            <div className="space-y-2">
+                              {editForm.accompanists.map((c, idx) => (
+                                <div
+                                  key={`${p.id}-edit-acc-${idx}`}
+                                  className="grid gap-2 rounded-lg border border-border bg-card p-2 md:grid-cols-4"
+                                >
+                                  <input
+                                    value={c.fullName || ""}
+                                    onChange={(e) =>
+                                      updateEditCompanion(idx, {
+                                        fullName: e.target.value,
+                                      })
+                                    }
+                                    placeholder="Nom"
+                                    className="rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
+                                  />
+                                  <select
+                                    value={c.meal || "meat"}
+                                    onChange={(e) =>
+                                      updateEditCompanion(idx, {
+                                        meal: e.target.value as
+                                          | "meat"
+                                          | "fish"
+                                          | "vegetarian"
+                                          | "children",
+                                      })
+                                    }
+                                    className="rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
+                                  >
+                                    <option value="">select menu</option>
+                                    <option value="meat">Viande</option>
+                                    <option value="fish">Poisson</option>
+                                    <option value="vegetarian">
+                                      Vegetarien
+                                    </option>
+                                    <option value="children">Enfant</option>
+                                  </select>
+                                  <select
+                                    value={
+                                      c.attending === true
+                                        ? "yes"
+                                        : c.attending === false
+                                          ? "no"
+                                          : ""
+                                    }
+                                    onChange={(e) => {
+                                      const val = e.target.value;
+                                      updateEditCompanion(idx, {
+                                        attending:
+                                          val === "yes"
+                                            ? true
+                                            : val === "no"
+                                              ? false
+                                              : null,
+                                      });
+                                    }}
+                                    className="rounded-lg border border-border bg-background px-3 py-2 text-xs text-foreground outline-none transition focus:border-primary focus:ring-1 focus:ring-primary"
+                                  >
+                                    <option value="">En attente</option>
+                                    <option value="yes">Présent</option>
+                                    <option value="no">Absent</option>
+                                  </select>
+                                  <button
+                                    type="button"
+                                    onClick={() => removeEditCompanion(idx)}
+                                    disabled={editSaving || deletingId === p.id}
+                                    className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs font-medium text-destructive transition hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-60"
+                                  >
+                                    Retirer
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         </>
                       ) : (
@@ -937,7 +1111,7 @@ export default function AdminPage() {
                             type="button"
                             className="rounded-full border border-border px-3 py-1 text-[11px] font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60"
                             onClick={cancelEdit}
-                            disabled={editSaving}
+                            disabled={editSaving || deletingId === p.id}
                           >
                             Annuler
                           </button>
@@ -945,9 +1119,19 @@ export default function AdminPage() {
                             type="button"
                             className="rounded-full bg-primary px-3 py-1 text-[11px] font-medium text-primary-foreground shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
                             onClick={saveEdit}
-                            disabled={editSaving}
+                            disabled={editSaving || deletingId === p.id}
                           >
                             {editSaving ? "Sauvegarde..." : "Enregistrer"}
+                          </button>
+                          <button
+                            type="button"
+                            className="rounded-full border border-destructive/40 px-3 py-1 text-[11px] font-medium text-destructive transition hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-60"
+                            onClick={() => deleteParticipant(p)}
+                            disabled={editSaving || deletingId === p.id}
+                          >
+                            {deletingId === p.id
+                              ? "Suppression..."
+                              : "Supprimer"}
                           </button>
                         </>
                       ) : (
@@ -956,6 +1140,7 @@ export default function AdminPage() {
                             type="button"
                             className="rounded-full border border-border px-3 py-1 text-[11px] font-medium text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
                             onClick={() => startEdit(p)}
+                            disabled={deletingId === p.id}
                           >
                             Modifier
                           </button>
@@ -966,12 +1151,23 @@ export default function AdminPage() {
                             disabled={
                               emailSendingId === p.id ||
                               bulkSending ||
-                              sendingIds.has(p.id)
+                              sendingIds.has(p.id) ||
+                              deletingId === p.id
                             }
                           >
                             {emailSendingId === p.id
                               ? "Envoi..."
                               : "Envoyer un email"}
+                          </button>
+                          <button
+                            type="button"
+                            className="rounded-full border border-destructive/40 px-3 py-1 text-[11px] font-medium text-destructive transition hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-60"
+                            onClick={() => deleteParticipant(p)}
+                            disabled={deletingId === p.id}
+                          >
+                            {deletingId === p.id
+                              ? "Suppression..."
+                              : "Supprimer"}
                           </button>
                         </>
                       )}
@@ -982,7 +1178,7 @@ export default function AdminPage() {
                     <p className="text-sm text-destructive">{editError}</p>
                   )}
 
-                  {p.accompanists.length > 0 && (
+                  {!isEditing && p.accompanists.length > 0 && (
                     <div className="space-y-1">
                       <p className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">
                         Accompagnateurs
@@ -993,7 +1189,7 @@ export default function AdminPage() {
                             key={`${p.id}-acc-${idx}`}
                             className="text-sm text-foreground"
                           >
-                            - {c.fullName} ({c.meal}
+                            - {c.fullName} ({c.attending ? c.meal : ""}
                             {c.restrictions
                               ? ` · Restriction: ${c.restrictions}`
                               : ""}
