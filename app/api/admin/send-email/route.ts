@@ -55,8 +55,8 @@ const buildHtml = (opts: {
       : `Chèr(e) <strong>${name}</strong>,<br/>Nous avons la joie de t’inviter à célébrer notre mariage.`,
     date: isEn ? "Saturday, August 22, 2026" : "Samedi 22 Août 2026",
     time: isEn
-      ? "Arrival: 5:00 PM • Ceremony: 5:30 PM"
-      : "Arrivée : 17h00 • Cérémonie : 17h30",
+      ? "Arrival: 14:45 PM • Ceremony: 15:30 PM"
+      : "Arrivée : 14h45 • Cérémonie : 15h30",
     venueTitle: "Mouton Village",
     venueAddress: "12 Chem. des Patriotes, Saint-Charles-sur-Richelieu, QC",
     dressCode: isEn ? "Cocktail / Chic" : "Élégant / Cocktail",
