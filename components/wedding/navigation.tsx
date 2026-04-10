@@ -11,6 +11,7 @@ const navItems = [
   { key: "nav.party", href: "#party" },
   { key: "nav.gallery", href: "#gallery" },
   { key: "nav.rsvp", href: "#rsvp" },
+  { key: "nav.music", href: "#music" },
   { key: "nav.contact", href: "#contact" },
 ];
 

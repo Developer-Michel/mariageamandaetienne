@@ -114,6 +114,27 @@ export function Info() {
               {t("info.tips.text")}
             </p>
           </div>
+
+          {/* Thin separator */}
+          <div className="mx-auto h-px w-24 bg-border" />
+
+          {/* Gift policy */}
+          <div
+            {...getChildProps(3)}
+            className={cn(
+              "flex flex-col items-center text-center",
+              getChildProps(3).className,
+            )}
+          >
+            <p className="mb-6 font-serif text-2xl font-light tracking-wide text-foreground md:text-3xl">
+              {t("info.gift.title")}
+            </p>
+
+            <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+              {t("info.gift.text")}
+            </p>
+          </div>
+
           {/* Thin separator */}
           <div className="mx-auto h-px w-24 bg-border" />
         </div>

@@ -60,6 +60,7 @@ const buildHtml = (opts: {
     venueTitle: "Mouton Village",
     venueAddress: "12 Chem. des Patriotes, Saint-Charles-sur-Richelieu, QC",
     dressCode: isEn ? "Cocktail / Chic" : "Élégant / Cocktail",
+    gift: isEn ? "Cash only" : "Argent comptant seulement",
     cocktail: isEn ? "Cocktail" : "Cocktail",
     dinner: isEn ? "Dinner" : "Souper",
     party: isEn ? "Party" : "Soirée",
@@ -148,6 +149,10 @@ const buildHtml = (opts: {
           <div class="row">
             <div class="label">${isEn ? "Dress code" : "Tenue"}</div>
             <div class="value">${copy.dressCode}</div>
+          </div>
+          <div class="row">
+            <div class="label">${isEn ? "Gift" : "Cadeau"}</div>
+            <div class="value">${copy.gift}</div>
           </div>
         </div>
 

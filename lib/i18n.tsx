@@ -25,6 +25,7 @@ export const translations: Translations = {
   "nav.party": { fr: "Proches", en: "Wedding Party" },
   "nav.gallery": { fr: "Galerie", en: "Gallery" },
   "nav.rsvp": { fr: "RSVP", en: "RSVP" },
+  "nav.music": { fr: "Musique", en: "Music" },
   "nav.contact": { fr: "Contact", en: "Contact" },
 
   // Hero
@@ -109,6 +110,11 @@ export const translations: Translations = {
   "info.tips.text": {
     fr: "Code vestimentaire : tenue de cocktail. Prévoyez des chaussures confortables pour la soirée dansante. Le stationnement est disponible sur place.",
     en: "Dress code: cocktail attire. Bring comfortable shoes for the dance party. Parking is available on site.",
+  },
+  "info.gift.title": { fr: "Cadeaux", en: "Gifts" },
+  "info.gift.text": {
+    fr: "Nous acceptons les cadeaux uniquement en argent comptant. Merci de votre compréhension.",
+    en: "We accept gifts in cash only. Thank you for your understanding.",
   },
 
   // Hotel
@@ -274,6 +280,37 @@ export const translations: Translations = {
 
   // Music
   "music.label": { fr: "Musique", en: "Music" },
+  "music.title": {
+    fr: "Musique qui te donne envie de danser",
+    en: "music that make you want to dance",
+  },
+  "music.form.song": { fr: "Nom de la chanson", en: "Song name" },
+  "music.form.song.placeholder": {
+    fr: "Ex: Dancing Queen",
+    en: "Ex: Dancing Queen",
+  },
+  "music.form.name": {
+    fr: "Nom de la personne qui recommande",
+    en: "Name of the person who recommends",
+  },
+  "music.form.name.placeholder": {
+    fr: "Votre nom",
+    en: "Your name",
+  },
+  "music.form.send": { fr: "Envoyer", en: "Send" },
+  "music.form.sending": { fr: "Envoi...", en: "Sending..." },
+  "music.form.success": {
+    fr: "Merci! Ta recommandation a ete envoyee.",
+    en: "Thanks! Your recommendation has been sent.",
+  },
+  "music.form.error.required": {
+    fr: "Merci de remplir les deux champs.",
+    en: "Please fill out both fields.",
+  },
+  "music.form.error.send": {
+    fr: "Impossible d'envoyer la recommandation pour le moment.",
+    en: "Unable to send recommendation right now.",
+  },
 
   // Footer
   "footer.text": { fr: "Fait avec amour", en: "Made with love" },

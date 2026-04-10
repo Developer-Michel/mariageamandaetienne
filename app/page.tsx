@@ -11,6 +11,7 @@ import { Gallery } from "@/components/wedding/gallery";
 import { RSVPForm } from "@/components/wedding/rsvp";
 import { HotelInfo } from "@/components/wedding/hotel";
 import { Reminder } from "@/components/wedding/reminder";
+import { MusicRecommendation } from "@/components/wedding/music-recommendation";
 import { Contact } from "@/components/wedding/contact";
 import { Footer } from "@/components/wedding/footer";
 
@@ -28,6 +29,7 @@ export default function WeddingPage() {
           <RSVPForm />
           <HotelInfo />
           <Reminder />
+          <MusicRecommendation />
           <Contact />
         </main>
         <Footer />
