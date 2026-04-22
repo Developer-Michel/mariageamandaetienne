@@ -113,8 +113,8 @@ export const translations: Translations = {
   },
   "info.gift.title": { fr: "Cadeaux", en: "Gifts" },
   "info.gift.text": {
-    fr: "Nous acceptons les cadeaux uniquement en argent comptant. Merci de votre compréhension.",
-    en: "We accept gifts in cash only. Thank you for your understanding.",
+    fr: "Nous sommes heureux de vous avoir à nos côtés. Si vous désirez nous gâter, une participation financière nous aiderait à débuter cette nouvelle aventure.",
+    en: "The greatest gift to us is having you by our side. If you wish to spoil us, a monetary contribution would help us begin this new chapter.",
   },
 
   // Hotel

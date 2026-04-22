@@ -4,6 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import { Section, SectionHeader } from "./section";
 import Image from "next/image.js";
 const row1 = [
+  { name: "Sarah", roleKey: "party.role.bridesmaid", initials: "S" },
   { name: "Marco", roleKey: "party.role.groomsman", initials: "M" },
   { name: "Alex", roleKey: "party.role.groomsman", initials: "A" },
   { name: "Alexandra", roleKey: "party.role.bridesmaid", initials: "A" },
@@ -14,7 +15,6 @@ const row1 = [
   { name: "Esther", roleKey: "party.role.bridesmaid", initials: "E" },
   { name: "Juliana", roleKey: "party.role.bridesmaid", initials: "J" },
   { name: "Marylou", roleKey: "party.role.bridesmaid", initials: "M" },
-  { name: "Sarah", roleKey: "party.role.bridesmaid", initials: "S" },
 ];
 
 function PersonCard({

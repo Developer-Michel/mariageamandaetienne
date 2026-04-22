@@ -150,10 +150,6 @@ const buildHtml = (opts: {
             <div class="label">${isEn ? "Dress code" : "Tenue"}</div>
             <div class="value">${copy.dressCode}</div>
           </div>
-          <div class="row">
-            <div class="label">${isEn ? "Gift" : "Cadeau"}</div>
-            <div class="value">${copy.gift}</div>
-          </div>
         </div>
 
 
